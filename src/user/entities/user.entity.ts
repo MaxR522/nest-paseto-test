@@ -28,6 +28,9 @@ export class User {
   @Column({ type: 'date', nullable: true })
   dob: Date | undefined;
 
+  @Column({ type: 'varchar', nullable: true })
+  avatar: string;
+
   @Column({
     type: 'enum',
     enum: ['admin', 'user'],

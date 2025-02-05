@@ -17,7 +17,9 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    // Check an user with email or username already exists
+    // Check if an user with the same email or username already exists
+
+    // TO-DO: Upload avatar
     const existUser = await this.userRepository
       .createQueryBuilder('user')
       .where('email = :email', { email: createUserDto.email })

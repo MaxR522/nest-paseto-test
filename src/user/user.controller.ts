@@ -6,17 +6,35 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import {
+  FileFieldsInterceptor,
+  MemoryStorageFile,
+  UploadedFile,
+} from '@blazity/nest-file-fastify';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      {
+        name: 'avatar',
+        maxCount: 1,
+      },
+    ]),
+  )
+  create(
+    @Body() createUserDto: CreateUserDto,
+    @UploadedFile() avatar: { avatar?: MemoryStorageFile },
+  ) {
+    console.log('avatar', avatar);
     return this.userService.create(createUserDto);
   }
 
